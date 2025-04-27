@@ -2,6 +2,7 @@
 
 
 int check_obesity(t_philo* phi);
+int is_dead(t_philo *philo);
 
 int	atoi_check(char nptr, int signe, int num)
 {
@@ -59,7 +60,8 @@ long get_time()
 
 void 	print_event(t_philo *phi , char *str)
 {
-	return;
+	// if (is_dead(phi) == 1)
+	// 	return;
 	pthread_mutex_lock(&phi->tba->print);
 	printf("%ld\t%d\t%s\n" , (get_time() - phi-> born) , phi->id_philo , str);
 	pthread_mutex_unlock(&phi->tba->print);
@@ -67,7 +69,7 @@ void 	print_event(t_philo *phi , char *str)
 }
 void eating(t_philo *phi)
 {
-	if (check_obesity(phi) == 1)
+	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 		return;
 	if(phi->id_philo % 2 == 0)
 	{
@@ -98,7 +100,7 @@ void eating(t_philo *phi)
 }
 void sleeping (t_philo *phi)
 {
-	if (check_obesity(phi) == 1)
+	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 		return;
 	print_event(phi,"is sleeping");
 	usleep(phi->time_to_sleepy*1000);
@@ -106,6 +108,8 @@ void sleeping (t_philo *phi)
 
 void thinking(t_philo *phi)
 {
+	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
+		return;
 	print_event(phi,"is thinking");
 	usleep (1000);
 }
@@ -120,20 +124,31 @@ int check_obesity(t_philo* phi)
 	pthread_mutex_unlock(&phi->tba->mutexes->belly);
 	return 0;
 }
+int is_dead(t_philo *philo)
+{
+		pthread_mutex_lock(&philo->tba->mutexes->die_mutex);
+		if (philo->tba->is_dead == 1)
+		{
+			pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);	
+			return 1;
+		}	
+		pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
+		return 0;
+}
 void* routine(void *arg)
 {
     t_philo *phi;
 	phi = (t_philo*)arg;
 	usleep(6000);
-	while (check_obesity(phi) != 1)
+	while (check_obesity(phi) != 1 )
 	{
-		if (check_obesity(phi) == 1)
+		if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 			break;
 		thinking(phi);
-		if (check_obesity(phi) == 1)
+		if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 			break;
 		eating(phi);
-		if (check_obesity(phi) == 1)
+		if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 			break;
 		sleeping(phi);
 	}
@@ -147,23 +162,47 @@ void init_mutex(t_philinf *tb)
 	pthread_mutex_init(&tb->mutexes->get_time, NULL);
 }
 
+int check_death(t_philo *philo)
+{
+	int i = 0;
+	while(i < philo->tba->number_philos)
+	{
+		pthread_mutex_lock(&philo->tba->mutexes->get_time);
+		pthread_mutex_lock(&philo->tba->mutexes->belly);
+		pthread_mutex_lock(&philo->tba->mutexes->die_mutex);
+		if((get_time() - philo[i].last_meal) >= philo[i].time_too_die && philo[i].last_meal != 0)
+		{
+			philo[i].tba->is_dead = 1;
+			print_event(&philo[i],"is die");
+			pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
+			pthread_mutex_unlock(&philo->tba->mutexes->get_time);
+			pthread_mutex_unlock(&philo->tba->mutexes->belly);
+			return (1);
+		}
+		pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
+		pthread_mutex_unlock(&philo->tba->mutexes->get_time);
+		pthread_mutex_unlock(&philo->tba->mutexes->belly);
+		i++;
+	}
+	return (0);
+}
 void* monitor(void* arg)
 {
-	t_philinf *tb = (t_philinf *)arg;
+	t_philo *philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&tb->mutexes->belly);
-		if (tb->is_full == tb->number_philos)
+		pthread_mutex_lock(&philo->tba->mutexes->belly);
+		if (philo->tba->is_full == philo->tba->number_philos)
 			{
-				tb->stop_eat = 1;
-				pthread_mutex_unlock(&tb->mutexes->belly);
+				philo->tba->stop_eat = 1;
+				pthread_mutex_unlock(&philo->tba->mutexes->belly);
 				break;
 			}
-		pthread_mutex_unlock(&tb->mutexes->belly);
+		pthread_mutex_unlock(&philo->tba->mutexes->belly);
+		if(check_death(philo) == 1)
+			break;
 		usleep(1000);
 	}
-	printf("wa miiiiiiiiii !! \n");
-	usleep(tb->time_eat * 1000 + tb->time_sleep * 1000 + 1000);
 	return NULL;
 }
 void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
@@ -172,7 +211,7 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 	long start;
 	pthread_t moni;
 
-	pthread_create(&moni,NULL,&monitor,tb);
+	pthread_create(&moni,NULL,&monitor,phi);
 	start = get_time();
 	while (i < tb->number_philos){
 		phi[i].born = start;	
@@ -181,7 +220,6 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 		usleep(200);
 	}
 	pthread_join(moni,NULL);
-	printf("wa miiiiiiiiii 222222!! \n");
 
 	i = 0;
 	while (i < tb->number_philos)
@@ -200,7 +238,6 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 	pthread_mutex_destroy(&tb->mutexes->belly);
 	pthread_mutex_destroy(&tb->mutexes->die_mutex);
 	pthread_mutex_destroy(&tb->mutexes->get_time);
-	printf("wa miiiiiiiiii 222222!! \n");
 
 }
 
@@ -237,8 +274,7 @@ void philo_born(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 	init_mutex(tb);
 	init_philo(tb,phi,forks);
 	create_n_join(tb,phi,forks);
-	pthread_mutex_destroy(&tb->mutexes->print);
-	printf("wa miiiiiiiiii 444444!! \n");
+	// pthread_mutex_destroy(&tb->mutexes->print); //?
 }
 
 int main (int argc, char *argv[])
