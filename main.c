@@ -60,8 +60,8 @@ long get_time()
 
 void 	print_event(t_philo *phi , char *str)
 {
-	// if (is_dead(phi) == 1)
-	// 	return;
+	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
+		return;
 	pthread_mutex_lock(&phi->tba->print);
 	printf("%ld\t%d\t%s\n" , (get_time() - phi-> born) , phi->id_philo , str);
 	pthread_mutex_unlock(&phi->tba->print);
@@ -103,7 +103,7 @@ void sleeping (t_philo *phi)
 	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 		return;
 	print_event(phi,"is sleeping");
-	usleep(phi->time_to_sleepy*1000);
+	usleep(phi->time_to_sleepy * 1000);
 }
 
 void thinking(t_philo *phi)
@@ -139,7 +139,6 @@ void* routine(void *arg)
 {
     t_philo *phi;
 	phi = (t_philo*)arg;
-	usleep(6000);
 	while (check_obesity(phi) != 1 )
 	{
 		if (check_obesity(phi) == 1 || is_dead(phi) == 1)
@@ -173,10 +172,13 @@ int check_death(t_philo *philo)
 		if((get_time() - philo[i].last_meal) >= philo[i].time_too_die && philo[i].last_meal != 0)
 		{
 			philo[i].tba->is_dead = 1;
-			print_event(&philo[i],"is die");
 			pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
 			pthread_mutex_unlock(&philo->tba->mutexes->get_time);
 			pthread_mutex_unlock(&philo->tba->mutexes->belly);
+			 print_event(&philo[i],"is die");
+			// pthread_mutex_lock(&philo->tba->mutexes->print);
+			// printf("%ld\t%d\t%s\n" , (get_time() - philo[i].born) , philo[i].id_philo ,"is die");
+			// pthread_mutex_unlock(&philo->tba->mutexes->print);
 			return (1);
 		}
 		pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
@@ -203,6 +205,7 @@ void* monitor(void* arg)
 			break;
 		usleep(1000);
 	}
+
 	return NULL;
 }
 void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
@@ -217,7 +220,6 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 		phi[i].born = start;	
 		pthread_create(&phi[i].th_philo,NULL,&routine,&phi[i]);
 		i++;
-		usleep(200);
 	}
 	pthread_join(moni,NULL);
 
@@ -225,7 +227,6 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 	while (i < tb->number_philos)
 	{
 		pthread_join(phi[i].th_philo,NULL);
-		usleep(100);
 		i++;
 	}
 	i = 0;
@@ -234,7 +235,7 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks)
 		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&tb->mutexes->print);
+	//pthread_mutex_destroy(&tb->mutexes->print);
 	pthread_mutex_destroy(&tb->mutexes->belly);
 	pthread_mutex_destroy(&tb->mutexes->die_mutex);
 	pthread_mutex_destroy(&tb->mutexes->get_time);
