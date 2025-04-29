@@ -1,6 +1,5 @@
 #include "philo.h"
 
-
 // int	atoi_check(char nptr, int signe, int num)
 // {
 // 	if (signe == 1 && (num > INT_MAX / 10 || (num == INT_MAX / 10 && (nptr
@@ -273,6 +272,7 @@
 // 			i++;
 // 		}
 // }
+
 // void  init_flags(t_philinf* tb)
 // {
 // 	tb->is_dead = 0;

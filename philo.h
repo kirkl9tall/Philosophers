@@ -65,7 +65,7 @@ int	atoi_check(char nptr, int signe, int num);
 int	ft_atoi(const char *nptr);
 int abs_args(int argc,char *argv[],t_philinf *tb);
 long get_time();
-void 	print_event(t_philo *phi , char *str)
+void 	print_event(t_philo *phi , char *str);
 int pick_forks(t_philo *phi);
 int eating(t_philo *phi);
 void sleeping (t_philo *phi);
@@ -82,6 +82,6 @@ void create_n_join(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks);
 void init_philo(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks);
 void  init_flags(t_philinf* tb);
 void philo_born(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks);
-void freeing(t_philinf *tab,t_philo *phi);
+void freeing(t_philinf *tab,t_philo *phi,pthread_mutex_t *forks);
 
 #endif
