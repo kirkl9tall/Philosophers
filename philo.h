@@ -83,4 +83,5 @@ void init_philo(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks);
 void  init_flags(t_philinf* tb);
 void philo_born(t_philinf *tb,t_philo *phi,pthread_mutex_t *forks);
 void freeing(t_philinf *tab,t_philo *phi);
+
 #endif
