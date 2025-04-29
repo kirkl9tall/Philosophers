@@ -1,12 +1,17 @@
-#ifndef PHILOO_H
-# define PHILOO_H
-#ifndef number_of_philosophers
-# define number_of_philosophers
-#endif
-# define time_to_die
-# define time_to_eat
-# define time_to_sleep
-# define number_of_times_each_philosopher_must_eat
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:01:50 by abismail          #+#    #+#             */
+/*   Updated: 2025/04/29 18:05:53 by abismail         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <limits.h>
 # include <math.h>

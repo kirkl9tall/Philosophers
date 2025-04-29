@@ -6,11 +6,12 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:42 by abismail          #+#    #+#             */
-/*   Updated: 2025/04/29 17:49:22 by abismail         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:05:10 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
 
 void	philo_born(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 {
