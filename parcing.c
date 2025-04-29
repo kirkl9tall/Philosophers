@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parcing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 17:34:48 by abismail          #+#    #+#             */
+/*   Updated: 2025/04/29 17:51:23 by abismail         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	atoi_check(char nptr, int signe, int num)
@@ -30,39 +42,39 @@ int	ft_atoi(const char *nptr)
 	return (num * signe);
 }
 
-int abs_args(int argc,char *argv[],t_philinf *tb)
+int	abs_args(int argc, char *argv[], t_philinf *tb)
 {
-    tb->number_philos = ft_atoi(argv[1]);
-    tb->time_die = ft_atoi(argv[2]);
-    tb->time_eat  = ft_atoi(argv[3]);
-    tb->time_sleep = ft_atoi(argv[4]);
-    if (argc == 6)
-      tb->n_must_eat = atoi(argv[5]);
-	else 
+	tb->number_philos = ft_atoi(argv[1]);
+	tb->time_die = ft_atoi(argv[2]);
+	tb->time_eat = ft_atoi(argv[3]);
+	tb->time_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		tb->n_must_eat = atoi(argv[5]);
+	else
 		tb->n_must_eat = INT_MAX;
-	if (tb->number_philos < 0|| tb->time_die < 0 ||
-		 tb->time_eat < 0|| tb->time_sleep < 0|| tb->n_must_eat < 0)
-		{
-			free(tb->mutexes);
-			free(tb);
-			return 1;
-		}
-	return 0;
+	if (tb->number_philos < 0 || tb->time_die < 0 || tb->time_eat < 0
+		|| tb->time_sleep < 0 || tb->n_must_eat < 0)
+	{
+		free(tb->mutexes);
+		free(tb);
+		return (1);
+	}
+	return (0);
 }
-long get_time()
+
+long	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
-	gettimeofday(&tv , NULL);
-	return(tv.tv_sec * 1000 + tv.tv_usec /1000);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void 	print_event(t_philo *phi , char *str)
+void	print_event(t_philo *phi, char *str)
 {
 	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
-		return;
-	pthread_mutex_lock(&phi->tba->print);
-	printf("%ld\t%d\t%s\n" , (get_time() - phi-> born) , phi->id_philo , str);
-	pthread_mutex_unlock(&phi->tba->print);
-
+		return ;
+	pthread_mutex_lock(&phi->tba->mutexes->print);
+	printf("%ld\t%d\t%s\n", (get_time() - phi->born), phi->id_philo, str);
+	pthread_mutex_unlock(&phi->tba->mutexes->print);
 }

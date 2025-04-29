@@ -1,11 +1,13 @@
 NAME = philo
 SRC = routine.c parcing.c init_monit.c extra_routine.c main.c
-CC = cc
+CC = cc -g
 FLAGS = -Werror -Wextra -Wall
 RM = rm -rf
 OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+all:$(NAME)
+
+$(NAME):$(OBJ)
 	$(CC) $(OBJ) $(FLAGS) -o $(NAME)
 
 re:fclean all
