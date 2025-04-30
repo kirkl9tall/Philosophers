@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:20 by abismail          #+#    #+#             */
-/*   Updated: 2025/04/29 17:50:01 by abismail         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:54:26 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	*routine(void *arg)
 	t_philo	*phi;
 
 	phi = (t_philo *)arg;
+	usleep(1000);
 	while (!check_obesity(phi) && !is_dead(phi))
 	{
 		thinking(phi);
