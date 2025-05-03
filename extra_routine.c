@@ -48,23 +48,23 @@ void	init_mutex(t_philinf *tb)
 	pthread_mutex_init(&tb->mutexes->get_time, NULL);
 }
 
-void	print_death(t_philo *phi, char *str)
+void	print_death(t_philo *phi, char *str,long taken)
 {
 	pthread_mutex_lock(&phi->tba->mutexes->print);
-	printf("%ld\t%d\t%s\n", (get_time() - phi->born), phi->id_philo, str);
+	printf("%ld\t%d\t%s took %ld\n", (get_time() - phi->born), phi->id_philo, str,taken);
 	pthread_mutex_unlock(&phi->tba->mutexes->print);
 }
 
 int	check_death(t_philo *philo)
 {
 	int	i;
-
+	long taken;
 	i = 0;
 	while (i < philo->tba->number_philos)
 	{
 		pthread_mutex_lock(&philo->tba->mutexes->get_time);
 		pthread_mutex_lock(&philo->tba->mutexes->belly);
-		if ((((get_time() - philo[i].last_meal)) >= philo[i].time_too_die)
+		if (((taken = get_time() - philo[i].last_meal) >= philo[i].time_too_die)
 			&& philo[i].last_meal != 0)
 		{
 			pthread_mutex_unlock(&philo->tba->mutexes->belly);
@@ -72,7 +72,7 @@ int	check_death(t_philo *philo)
 			philo[i].tba->is_dead = 1;
 			pthread_mutex_unlock(&philo->tba->mutexes->die_mutex);
 			pthread_mutex_unlock(&philo->tba->mutexes->get_time);
-			print_death(&philo[i], "is die");
+			print_death(&philo[i], "is die",taken);
 			return (1);
 		}
 		pthread_mutex_unlock(&philo->tba->mutexes->belly);

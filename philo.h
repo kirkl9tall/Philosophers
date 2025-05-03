@@ -78,7 +78,7 @@ void					sleeping(t_philo *phi);
 void					thinking(t_philo *phi);
 int						check_obesity(t_philo *phi);
 int						is_dead(t_philo *philo);
-void					print_death(t_philo *phi, char *str);
+void					print_death(t_philo *phi, char *str,long taken);
 void					*routine(void *arg);
 void					init_mutex(t_philinf *tb);
 int						check_death(t_philo *philo);

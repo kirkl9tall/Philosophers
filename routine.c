@@ -23,6 +23,7 @@ int	pick_forks(t_philo *phi)
 	}
 	else
 	{
+		usleep(1000);
 		pthread_mutex_lock(phi->l_fork);
 		print_event(phi, "has taken a fork");
 		if (phi->tba->number_philos == 1)
@@ -47,13 +48,13 @@ int	eating(t_philo *phi)
 	pthread_mutex_unlock(&phi->tba->mutexes->get_time);
 	print_event(phi, "is eating");
 	usleep(phi->time_to_eating * 1000);
-	pthread_mutex_unlock(phi->r_fork);
-	pthread_mutex_unlock(phi->l_fork);
 	phi->kerchek++;
 	pthread_mutex_lock(&phi->tba->mutexes->belly);
 	if (phi->kerchek == phi->tba->n_must_eat)
 		phi->tba->is_full++;
 	pthread_mutex_unlock(&phi->tba->mutexes->belly);
+	pthread_mutex_unlock(phi->r_fork);
+	pthread_mutex_unlock(phi->l_fork);
 	return (0);
 }
 
