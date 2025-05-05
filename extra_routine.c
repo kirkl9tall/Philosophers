@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:20 by abismail          #+#    #+#             */
-/*   Updated: 2025/04/30 10:54:26 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:58:54 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ void	*routine(void *arg)
 	usleep(1000);
 	while (!check_obesity(phi) && !is_dead(phi))
 	{
-		thinking(phi);
 		if (eating(phi))
 			break ;
 		sleeping(phi);
+		thinking(phi);
+		usleep(1000);
 	}
 	return (NULL);
 }
