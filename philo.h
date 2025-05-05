@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:01:50 by abismail          #+#    #+#             */
-/*   Updated: 2025/04/29 18:05:53 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:55:49 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void					sleeping(t_philo *phi);
 void					thinking(t_philo *phi);
 int						check_obesity(t_philo *phi);
 int						is_dead(t_philo *philo);
-void					print_death(t_philo *phi, char *str,long taken);
+void					print_death(t_philo *phi, char *str);
 void					*routine(void *arg);
 void					init_mutex(t_philinf *tb);
 int						check_death(t_philo *philo);
