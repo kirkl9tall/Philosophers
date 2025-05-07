@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:52 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/07 15:21:24 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:59:40 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	eating(t_philo *phi)
 	print_event(phi, "is eating");
 	if (phi->time_to_sleepy > phi->time_too_die){
 		usleep(phi->time_too_die * 1000);
-		return 1;
+		return (pthread_mutex_unlock(phi->r_fork),
+		pthread_mutex_unlock(phi->l_fork),1);
 	}
 	usleep(phi->time_to_eating * 1000);
 	pthread_mutex_unlock(phi->r_fork);
@@ -64,14 +65,14 @@ int	eating(t_philo *phi)
 	return (0);
 }
 
-void	sleeping(t_philo *phi)
+int	sleeping(t_philo *phi)
 {
 	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
-		return ;
+		return 1;
 	print_event(phi, "is sleeping");
 	if (phi->time_to_sleepy > phi->time_too_die){
 		usleep(phi->time_too_die * 1000);
-		return;
+		return 1;
 	}
 	else if (phi->time_to_eating > phi->time_to_sleepy)
 	{
@@ -79,6 +80,7 @@ void	sleeping(t_philo *phi)
 	}
 	else 
 	usleep(phi->time_to_sleepy * 1000);
+	return 0;
 }
 
 void	thinking(t_philo *phi)

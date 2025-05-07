@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:20 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/05 14:31:53 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:27:34 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	*routine(void *arg)
 	{
 		if (eating(phi))
 			break ;
-		sleeping(phi);
+		if (sleeping(phi))
+			break;
 		thinking(phi);
 		usleep(1000);
 	}

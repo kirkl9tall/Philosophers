@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:01:50 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/05 13:55:49 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:27:12 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ long					get_time(void);
 void					print_event(t_philo *phi, char *str);
 int						pick_forks(t_philo *phi);
 int						eating(t_philo *phi);
-void					sleeping(t_philo *phi);
+int						sleeping(t_philo *phi);
 void					thinking(t_philo *phi);
 int						check_obesity(t_philo *phi);
 int						is_dead(t_philo *philo);
