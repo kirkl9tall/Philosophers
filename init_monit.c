@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:27 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/05 11:45:40 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:43:09 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	init_philo(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 		phi[i].time_too_die = tb->time_die;
 		phi[i].time_to_sleepy = tb->time_sleep;
 		phi[i].kerchek = 0;
+		phi[i].n_must_eat = tb->n_must_eat;
 		if (i + 1 < tb->number_philos)
 			phi[i].l_fork = &forks[i + 1];
 		else
