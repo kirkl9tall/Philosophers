@@ -6,18 +6,21 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:42 by abismail          #+#    #+#             */
-/*   Updated: 2025/04/29 18:40:29 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:01:13 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_born(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
+int	philo_born(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 {
 	init_flags(tb);
-	init_mutex(tb);
-	init_philo(tb, phi, forks);
+	if (init_mutex(tb))
+		return 1;
+	if(init_philo(tb, phi, forks))
+		return 1;
 	create_n_join(tb, phi, forks);
+	return 0;
 }
 
 void	freeing(t_philinf *tab, t_philo *phi, pthread_mutex_t *forks)
@@ -25,7 +28,8 @@ void	freeing(t_philinf *tab, t_philo *phi, pthread_mutex_t *forks)
 	free(phi);
 	free(tab->mutexes);
 	free(tab);
-	free(forks);
+	if (forks)
+		free(forks);
 }
 
 int	main(int argc, char *argv[])
@@ -43,12 +47,14 @@ int	main(int argc, char *argv[])
 			return (0);
 		phi = malloc(tab->number_philos * sizeof(t_philo));
 		if (!phi)
-			return (freeing(tab, phi, forks), 1);
+			return (freeing(tab, phi, NULL), 1);
 		forks = malloc(tab->number_philos * sizeof(pthread_mutex_t));
 		if (!forks)
 			return (freeing(tab, phi, forks), 1);
-		philo_born(tab, phi, forks);
+		if (philo_born(tab, phi, forks))
+			freeing(tab, phi, forks);
 		freeing(tab, phi, forks);
+
 	}
 	return (0);
 }

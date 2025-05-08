@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:27 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/05 14:43:09 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:02:27 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	create_n_join(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 	pthread_t	moni;
 
 	i = 0;
-	pthread_create(&moni, NULL, &monitor, phi);
+	pthread_create(&moni, NULL, &monitor, phi);//
 	start = get_time();
 	while (i < tb->number_philos)
 	{
@@ -69,7 +69,7 @@ void	create_n_join(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 		pthread_mutex_destroy(&forks[i++]);
 }
 
-void	init_philo(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
+int	init_philo(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -85,13 +85,16 @@ void	init_philo(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 		phi[i].time_to_sleepy = tb->time_sleep;
 		phi[i].kerchek = 0;
 		phi[i].n_must_eat = tb->n_must_eat;
+		phi[i].last_meal = 0;
 		if (i + 1 < tb->number_philos)
 			phi[i].l_fork = &forks[i + 1];
 		else
 			phi[i].l_fork = &forks[0];
-		pthread_mutex_init(&forks[i], NULL);
+		if (pthread_mutex_init(&forks[i], NULL)!=0)
+			return (1);	
 		i++;
 	}
+	return 0;
 }
 
 void	init_flags(t_philinf *tb)

@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:01:50 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/07 15:27:12 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:53:53 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_mutexes
 {
 	pthread_mutex_t		print;
 	pthread_mutex_t		belly;
-	pthread_mutex_t		dead;
 	pthread_mutex_t		die_mutex;
 	pthread_mutex_t		get_time;
 }						t_mut;
@@ -80,16 +79,16 @@ int						check_obesity(t_philo *phi);
 int						is_dead(t_philo *philo);
 void					print_death(t_philo *phi, char *str);
 void					*routine(void *arg);
-void					init_mutex(t_philinf *tb);
+int						init_mutex(t_philinf *tb);
 int						check_death(t_philo *philo);
 void					*monitor(void *arg);
 void					destroy_mutex(t_philinf *tb);
 void					create_n_join(t_philinf *tb, t_philo *phi,
 							pthread_mutex_t *forks);
-void					init_philo(t_philinf *tb, t_philo *phi,
+int						init_philo(t_philinf *tb, t_philo *phi,
 							pthread_mutex_t *forks);
 void					init_flags(t_philinf *tb);
-void					philo_born(t_philinf *tb, t_philo *phi,
+int						philo_born(t_philinf *tb, t_philo *phi,
 							pthread_mutex_t *forks);
 void					freeing(t_philinf *tab, t_philo *phi,
 							pthread_mutex_t *forks);
