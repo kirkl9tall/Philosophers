@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:48 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 10:42:54 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:07:44 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	ft_atoi(const char *nptr)
 			signe *= -1;
 	while (nptr[x] >= '0' && nptr[x] <= '9')
 	{
-		if (!(atoi_check(nptr[x], signe, num)))	
-			return -1;
+		if (!(atoi_check(nptr[x], signe, num)))
+			return (-1);
 		num = num * 10 + (nptr[x++] - '0');
 	}
 	return (num * signe);
@@ -76,8 +76,8 @@ long	get_time(void)
 
 void	print_event(t_philo *phi, char *str)
 {
-	//if (check_obesity(phi) == 1 || is_dead(phi) == 1)
-	//	return ;
+	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
+		return ;
 	pthread_mutex_lock(&phi->tba->mutexes->print);
 	if (!(check_obesity(phi) || is_dead(phi)))
 		printf("%ld\t%d\t%s\n", (get_time() - phi->born), phi->id_philo, str);

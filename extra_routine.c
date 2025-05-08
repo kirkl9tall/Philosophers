@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:20 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:00:21 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:05:26 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*routine(void *arg)
 		if (eating(phi))
 			break ;
 		if (sleeping(phi))
-			break;
+			break ;
 		thinking(phi);
 		usleep(1000);
 	}
@@ -44,14 +44,13 @@ void	*routine(void *arg)
 
 int	init_mutex(t_philinf *tb)
 {
-
-	if (pthread_mutex_init(&tb->mutexes->print, NULL) !=0)
+	if (pthread_mutex_init(&tb->mutexes->print, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&tb->mutexes->belly, NULL)!=0)
+	if (pthread_mutex_init(&tb->mutexes->belly, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&tb->mutexes->die_mutex, NULL)!=0)
+	if (pthread_mutex_init(&tb->mutexes->die_mutex, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&tb->mutexes->get_time, NULL)!=0)
+	if (pthread_mutex_init(&tb->mutexes->get_time, NULL) != 0)
 		return (1);
 	return (0);
 }

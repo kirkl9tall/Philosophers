@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:42 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:01:13 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:06:20 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	philo_born(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 {
 	init_flags(tb);
 	if (init_mutex(tb))
-		return 1;
-	if(init_philo(tb, phi, forks))
-		return 1;
+		return (1);
+	if (init_philo(tb, phi, forks))
+		return (1);
 	create_n_join(tb, phi, forks);
-	return 0;
+	return (0);
 }
 
 void	freeing(t_philinf *tab, t_philo *phi, pthread_mutex_t *forks)
@@ -54,7 +54,6 @@ int	main(int argc, char *argv[])
 		if (philo_born(tab, phi, forks))
 			freeing(tab, phi, forks);
 		freeing(tab, phi, forks);
-
 	}
 	return (0);
 }
