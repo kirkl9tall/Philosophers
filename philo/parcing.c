@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:48 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:07:44 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:33:07 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	ft_atoi(const char *nptr)
 			return (-1);
 		num = num * 10 + (nptr[x++] - '0');
 	}
+	if (ft_is_alpha(nptr[x]))
+		return (-1);
 	return (num * signe);
 }
 

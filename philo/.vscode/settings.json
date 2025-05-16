@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "numbers": "c",
+        "chrono": "c",
+        "time.h": "c",
+        "cstdlib": "c",
+        "math.h": "c",
+        "limits.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

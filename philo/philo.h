@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:01:50 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 10:53:53 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:38:51 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ int						philo_born(t_philinf *tb, t_philo *phi,
 							pthread_mutex_t *forks);
 void					freeing(t_philinf *tab, t_philo *phi,
 							pthread_mutex_t *forks);
+int						ft_is_alpha(int x);
 #endif

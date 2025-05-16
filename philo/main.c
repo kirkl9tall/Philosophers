@@ -6,11 +6,18 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:42 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:06:20 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:40:03 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_is_alpha(int x)
+{
+	if ((x >= 'a' && x <= 'z') || (x >= 'A' && x <= 'z'))
+		return (1);
+	return (0);
+}
 
 int	philo_born(t_philinf *tb, t_philo *phi, pthread_mutex_t *forks)
 {

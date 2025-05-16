@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:20 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:05:26 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:28:11 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	*routine(void *arg)
 
 	phi = (t_philo *)arg;
 	usleep(1000);
+	if (phi->id_philo % 2 != 0)
+		usleep (1000);
 	while (!check_obesity(phi) && !is_dead(phi))
 	{
 		if (eating(phi))
@@ -37,7 +39,6 @@ void	*routine(void *arg)
 		if (sleeping(phi))
 			break ;
 		thinking(phi);
-		usleep(1000);
 	}
 	return (NULL);
 }

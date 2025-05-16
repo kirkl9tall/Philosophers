@@ -6,7 +6,7 @@
 /*   By: abismail <abismail@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:52 by abismail          #+#    #+#             */
-/*   Updated: 2025/05/08 11:11:04 by abismail         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:52:53 by abismail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	pick_forks(t_philo *phi)
 	}
 	else
 	{
-		thinking(phi);
 		pthread_mutex_lock(phi->l_fork);
 		print_event(phi, "has taken a fork");
 		if (phi->tba->number_philos == 1)
@@ -76,8 +75,6 @@ int	sleeping(t_philo *phi)
 		usleep(phi->time_too_die * 1000);
 		return (1);
 	}
-	else if (phi->time_to_eating > phi->time_to_sleepy)
-		usleep(phi->time_to_eating * 1000);
 	else
 		usleep(phi->time_to_sleepy * 1000);
 	return (0);
@@ -88,7 +85,9 @@ void	thinking(t_philo *phi)
 	if (check_obesity(phi) == 1 || is_dead(phi) == 1)
 		return ;
 	print_event(phi, "is thinking");
-	usleep(1000);
+	if (phi->time_to_eating >= phi->time_to_sleepy)
+		if (phi->tba->number_philos % 2)	
+			usleep(phi->time_to_eating * 1000);
 }
 
 int	check_obesity(t_philo *phi)
